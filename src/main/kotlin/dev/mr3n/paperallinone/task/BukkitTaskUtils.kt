@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.mr3n.paperallinone.task
 
 import org.bukkit.plugin.Plugin

@@ -4,6 +4,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.objenesis.ObjenesisStd
 import java.lang.reflect.Modifier
 
+@Suppress("unused")
 class AutoConfigurationSerializer: ConfigurationSerializable {
     override fun serialize(): MutableMap<String, Any> {
         val fields = this::class.java.declaredFields
