@@ -27,8 +27,8 @@ fun componentBuilder(block: ComponentBuilder.()->Unit): Component {
 class ComponentBuilder {
     private val component = Component.text()
 
-    fun line(vararg components: Pair<TextColor,String>) { components.forEach { this.component.append(Component.text(it.second, it.first)) } }
-    fun line(vararg components: Pair<Style,String>) { components.forEach { this.component.append(Component.text(it.second, it.first)) } }
+    fun colouredLine(vararg components: Pair<TextColor,String>) { components.forEach { this.component.append(Component.text(it.second, it.first)) } }
+    fun styledLine(vararg components: Pair<Style,String>) { components.forEach { this.component.append(Component.text(it.second, it.first)) } }
 
     fun build() = this.component.build()
 }
