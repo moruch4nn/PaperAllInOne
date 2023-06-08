@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.21"
+    `maven-publish`
 }
 
 group = "dev.mr3n"
@@ -17,4 +18,17 @@ dependencies {
 
 kotlin {
     jvmToolchain(17)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from(components["kotlin"])
+                groupId = "dev.mr3n"
+                artifactId = "paperallinone"
+                version = "1.0"
+            }
+        }
+    }
 }
