@@ -5,7 +5,7 @@ import org.objenesis.ObjenesisStd
 import java.lang.reflect.Modifier
 
 @Suppress("unused")
-class AutoConfigurationSerializer: ConfigurationSerializable {
+abstract class AutoConfigurationSerializer: ConfigurationSerializable {
     override fun serialize(): MutableMap<String, Any> {
         val fields = this::class.java.declaredFields
             .filterNot { Modifier.isTransient(it.modifiers) }
