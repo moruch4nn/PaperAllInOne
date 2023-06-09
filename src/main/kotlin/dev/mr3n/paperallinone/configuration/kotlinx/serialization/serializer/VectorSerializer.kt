@@ -6,10 +6,7 @@ import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.encoding.decodeStructure
-import kotlinx.serialization.encoding.encodeStructure
+import kotlinx.serialization.encoding.*
 import org.bukkit.util.Vector
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -30,11 +27,19 @@ object VectorSerializer: KSerializer<Vector> {
     }
 
     override fun deserialize(decoder: Decoder): Vector {
-        return decoder.decodeStructure(descriptor) {
-            val x = decodeDoubleElement(descriptor, 0)
-            val y = decodeDoubleElement(descriptor, 1)
-            val z = decodeDoubleElement(descriptor, 2)
-            return@decodeStructure Vector(x,y,z)
+        var x = 0.0
+        var y = 0.0
+        var z = 0.0
+        decoder.decodeStructure(descriptor) {
+            while(true) {
+                when(val i = decodeElementIndex(descriptor)) {
+                    0 -> x = decodeDoubleElement(descriptor, 0)
+                    1 -> y = decodeDoubleElement(descriptor, 1)
+                    2 -> z = decodeDoubleElement(descriptor, 2)
+                    CompositeDecoder.DECODE_DONE -> break
+                }
+            }
         }
+        return Vector(x,y,z)
     }
 }

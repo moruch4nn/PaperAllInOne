@@ -37,14 +37,24 @@ object LocationSerializer: KSerializer<Location> {
     }
 
     override fun deserialize(decoder: Decoder): Location {
-        return decoder.decodeStructure(descriptor) {
-            val world = decodeNullableSerializableElement(descriptor, 0, WorldSerializer)
-            val x = decodeDoubleElement(descriptor, 1)
-            val y = decodeDoubleElement(descriptor, 2)
-            val z = decodeDoubleElement(descriptor, 3)
-            val yaw = decodeFloatElement(descriptor, 4)
-            val pitch = decodeFloatElement(descriptor, 5)
-            return@decodeStructure Location(world, x, y, z, yaw, pitch)
+        var world: World? = null
+        var x = 0.0
+        var y = 0.0
+        var z = 0.0
+        var yaw = 0f
+        var pitch = 0f
+        decoder.decodeStructure(descriptor) {
+            while(true) {
+                when(val i = decodeElementIndex(descriptor)) {
+                    0 -> world = decodeNullableSerializableElement(descriptor, 0, WorldSerializer)
+                    1 -> x = decodeDoubleElement(descriptor, 1)
+                    2 -> y = decodeDoubleElement(descriptor, 2)
+                    3 -> z = decodeDoubleElement(descriptor, 3)
+                    4 -> yaw = decodeFloatElement(descriptor, 4)
+                    5 -> pitch = decodeFloatElement(descriptor, 5)
+                }
+            }
         }
+        return Location(world, x, y, z, yaw, pitch)
     }
 }
