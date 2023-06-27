@@ -32,7 +32,7 @@ object VectorSerializer: KSerializer<Vector> {
         var z = 0.0
         decoder.decodeStructure(descriptor) {
             while(true) {
-                when(val i = decodeElementIndex(descriptor)) {
+                when(decodeElementIndex(descriptor)) {
                     0 -> x = decodeDoubleElement(descriptor, 0)
                     1 -> y = decodeDoubleElement(descriptor, 1)
                     2 -> z = decodeDoubleElement(descriptor, 2)

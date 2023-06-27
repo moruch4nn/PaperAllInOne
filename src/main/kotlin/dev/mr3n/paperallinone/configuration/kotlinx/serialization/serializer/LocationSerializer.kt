@@ -6,10 +6,7 @@ import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.encoding.decodeStructure
-import kotlinx.serialization.encoding.encodeStructure
+import kotlinx.serialization.encoding.*
 import org.bukkit.Location
 import org.bukkit.World
 
@@ -45,13 +42,14 @@ object LocationSerializer: KSerializer<Location> {
         var pitch = 0f
         decoder.decodeStructure(descriptor) {
             while(true) {
-                when(val i = decodeElementIndex(descriptor)) {
+                when(decodeElementIndex(descriptor)) {
                     0 -> world = decodeNullableSerializableElement(descriptor, 0, WorldSerializer)
                     1 -> x = decodeDoubleElement(descriptor, 1)
                     2 -> y = decodeDoubleElement(descriptor, 2)
                     3 -> z = decodeDoubleElement(descriptor, 3)
                     4 -> yaw = decodeFloatElement(descriptor, 4)
                     5 -> pitch = decodeFloatElement(descriptor, 5)
+                    CompositeDecoder.DECODE_DONE -> break
                 }
             }
         }
