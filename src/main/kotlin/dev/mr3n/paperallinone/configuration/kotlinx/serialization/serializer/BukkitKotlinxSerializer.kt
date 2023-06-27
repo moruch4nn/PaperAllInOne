@@ -14,5 +14,7 @@ object BukkitKotlinxSerializer {
         contextual(UUID::class, UUIDSerializer)
         contextual(Vector::class, VectorSerializer)
         contextual(World::class, WorldSerializer)
+        contextual(IntRange::class, IntRangeSerializer)
+        contextual(LongRange::class, LongRangeSerializer)
     }
 }
