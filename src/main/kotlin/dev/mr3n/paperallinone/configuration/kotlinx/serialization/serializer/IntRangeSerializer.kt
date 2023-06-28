@@ -20,7 +20,7 @@ object IntRangeSerializer: KSerializer<IntRange> {
     override fun serialize(encoder: Encoder, value: IntRange) {
         encoder.encodeStructure(descriptor) {
             encodeIntElement(descriptor, 0, value.first)
-            encodeIntElement(descriptor, 0, value.last)
+            encodeIntElement(descriptor, 1, value.last)
         }
     }
 

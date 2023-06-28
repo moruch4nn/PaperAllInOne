@@ -20,7 +20,7 @@ object LongRangeSerializer: KSerializer<LongRange> {
     override fun serialize(encoder: Encoder, value: LongRange) {
         encoder.encodeStructure(descriptor) {
             encodeLongElement(descriptor, 0, value.first)
-            encodeLongElement(descriptor, 0, value.last)
+            encodeLongElement(descriptor, 1, value.last)
         }
     }
 
