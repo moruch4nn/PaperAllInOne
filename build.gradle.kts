@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.mr3n"
-version = "1.0-SNAPSHOT"
+version = "1.1"
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ afterEvaluate {
                 from(components["kotlin"])
                 groupId = "dev.mr3n"
                 artifactId = "paperallinone"
-                version = "1.0"
+                version = "1.1"
             }
         }
     }
