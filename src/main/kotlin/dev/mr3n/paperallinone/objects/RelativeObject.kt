@@ -56,7 +56,7 @@ class RelativeObject(var location: Location) {
     fun update() {
         this.entities.forEach { (entity, vector) ->
             val loc = this.location.clone()
-            loc.add(vector.rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
+            loc.add(vector.clone().rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
             entity.teleport(loc)
         }
     }
