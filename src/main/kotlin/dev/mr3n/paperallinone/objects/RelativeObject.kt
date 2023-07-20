@@ -1,26 +1,29 @@
 package dev.mr3n.paperallinone.objects
 
 import org.bukkit.Location
-import org.bukkit.entity.Entity
+import org.bukkit.entity.Display
 import org.bukkit.util.Vector
 
 @Suppress("unused")
-class RelativeObject(var location: Location) {
+class RelativeObject(location: Location) {
 
-    private val entities = mutableMapOf<Entity, Vector>()
+    var location = location.clone().setDirection(Vector(0,0,0))
+
+    private val displayEntities = mutableMapOf<Display, DisplayEntityInfo>()
     private val rotation = Vector()
 
-    fun add(entity: Entity, vector: Vector): RelativeObject {
-        this.entities[entity] = vector
+    fun add(entity: Display, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
+        this.displayEntities[entity] = DisplayEntityInfo(vector, rotateX, rotateY, rotateZ)
+        entity.boundingBox
         return this
     }
 
-    fun add(entity: Entity, x: Double, y: Double, z: Double): RelativeObject = this.add(entity, Vector(x,y,z))
+    fun add(entity: Display, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
 
-    fun <T: Entity> add(type: Class<T>, x: Double, y: Double, z: Double): T {
+    fun <T: Display> add(type: Class<T>, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): T {
         val world = this.location.world!!
         val entity = world.spawn(this.location,type)
-        this.add(entity, x, y, z)
+        this.add(entity, x, y, z, rotateX, rotateY, rotateZ)
         return entity
     }
 
@@ -54,15 +57,21 @@ class RelativeObject(var location: Location) {
         get() = this.rotation.z
 
     fun update() {
-        this.entities.forEach { (entity, vector) ->
-            val loc = this.location.clone()
-            loc.add(vector.clone().rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
+        this.displayEntities.forEach { (entity, entityInfo) ->
+            val loc = this.location.clone().setDirection(Vector(0,0,0))
+            loc.add(entityInfo.vector.clone().rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
+            if(entityInfo.rotateY) {
+                loc.yaw = -Math.toRadians(loc.yaw.toDouble()).toFloat()
+            }
+            if(entityInfo.rotateX) {
+                loc.pitch = Math.toRadians(loc.pitch.toDouble()).toFloat()
+            }
             entity.teleport(loc)
         }
     }
 
     fun teleport(location: Location, applyRot: Boolean) {
-        this.location = location
+        this.location = location.clone()
         if(applyRot) {
             this.rotation.y = -Math.toRadians(location.yaw.toDouble())
             this.rotation.x = Math.toRadians(location.pitch.toDouble())
