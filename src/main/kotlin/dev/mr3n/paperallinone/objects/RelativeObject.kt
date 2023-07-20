@@ -1,7 +1,6 @@
 package dev.mr3n.paperallinone.objects
 
 import org.bukkit.Location
-import org.bukkit.entity.Display
 import org.bukkit.entity.Entity
 import org.bukkit.util.Vector
 
@@ -60,13 +59,13 @@ class RelativeObject(location: Location) {
     fun update() {
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone().setDirection(Vector(0,0,0))
-            loc.add(entityInfo.vector.clone().rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
             if(entityInfo.rotateY) {
-                loc.yaw = -Math.toRadians(loc.yaw.toDouble()).toFloat()
+                this.rotation.y = -Math.toRadians(loc.yaw.toDouble())
             }
             if(entityInfo.rotateX) {
-                loc.pitch = Math.toRadians(loc.pitch.toDouble()).toFloat()
+                this.rotation.x = Math.toRadians(loc.pitch.toDouble())
             }
+            loc.add(entityInfo.vector.clone().rotateAroundX(this.rotation.x).rotateAroundY(this.rotation.y).rotateAroundZ(this.rotation.z))
             entity.teleport(loc)
         }
     }
