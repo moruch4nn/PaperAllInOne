@@ -7,7 +7,7 @@ import org.bukkit.util.Vector
 @Suppress("unused")
 class RelativeObject(location: Location) {
 
-    var location = location.clone().setDirection(Vector(0,0,0))
+    var location = location.clone()
 
     private val displayEntities = mutableMapOf<Entity, DisplayEntityInfo>()
     private val rotation = Vector()
