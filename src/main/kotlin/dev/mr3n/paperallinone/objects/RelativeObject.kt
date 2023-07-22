@@ -73,7 +73,7 @@ class RelativeObject(location: Location) {
                 vector.rotateAroundZ(this.rotation.z)
             }
 
-            entity.teleport(loc)
+            entity.teleport(loc.add(vector))
         }
     }
 
