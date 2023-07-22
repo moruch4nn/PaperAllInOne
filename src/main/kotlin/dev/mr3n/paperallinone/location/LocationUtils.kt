@@ -10,7 +10,7 @@ fun Location.moveFront(length: Double): Location {
     return this.add(this.direction.normalize().multiply(length))
 }
 
-fun Location.lineTo(to: Location, roughness: Int, task: (Location)->Unit) {
+fun Location.lineTo(to: Location, roughness: Double, task: (Location)->Unit) {
     val from = this.clone()
     val now = from.clone()
     val direction = to.toVector().subtract(from.toVector()).normalize().multiply(roughness)
