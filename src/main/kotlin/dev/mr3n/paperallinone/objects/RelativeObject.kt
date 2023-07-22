@@ -62,9 +62,13 @@ class RelativeObject(location: Location) {
 
             if(entityInfo.rotateX) {
                 vector = vector.rotateAroundX(this.rotation.x)
+            } else {
+                loc.pitch = entity.location.pitch
             }
             if(entityInfo.rotateY) {
                 vector = vector.rotateAroundY(this.rotation.y)
+            } else {
+                loc.yaw = entity.location.yaw
             }
             if(entityInfo.rotateZ) {
                 vector = vector.rotateAroundZ(this.rotation.z)
