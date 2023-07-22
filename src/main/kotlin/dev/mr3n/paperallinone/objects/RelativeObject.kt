@@ -13,7 +13,7 @@ class RelativeObject(location: Location) {
     private val rotation = Vector()
 
     fun add(entity: Entity, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
-        this.displayEntities[entity] = DisplayEntityInfo(vector, rotateX, rotateY, rotateZ)
+        this.displayEntities[entity] = DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ)
         return this
     }
 
@@ -58,22 +58,20 @@ class RelativeObject(location: Location) {
     fun update() {
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
+            val vector = entityInfo.vector.clone()
 
             if(entityInfo.rotateX) {
                 loc.direction = loc.direction.setX(entity.location.direction.x)
+                vector.rotateAroundX(this.rotation.x)
             }
             if(entityInfo.rotateY) {
                 loc.direction = loc.direction.setY(entity.location.direction.y)
+                vector.rotateAroundY(this.rotation.y)
             }
             if(entityInfo.rotateZ) {
                 loc.direction = loc.direction.setZ(entity.location.direction.z)
+                vector.rotateAroundZ(this.rotation.z)
             }
-
-            loc.x = this.location.x
-            loc.y = this.location.y
-            loc.z = this.location.z
-
-            loc.add(entityInfo.vector.clone().rotateAroundX(rotation.x).rotateAroundY(rotation.y).rotateAroundZ(rotation.z))
 
             entity.teleport(loc)
         }
