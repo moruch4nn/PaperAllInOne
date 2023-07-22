@@ -58,7 +58,7 @@ class RelativeObject(location: Location) {
     fun update() {
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
-            val rotation = this.rotation
+            val rotation = this.rotation.clone()
             if(!entityInfo.rotateY) {
                 rotation.y = entity.location.direction.y
             }
