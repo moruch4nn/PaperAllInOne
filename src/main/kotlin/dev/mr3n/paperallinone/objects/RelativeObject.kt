@@ -73,7 +73,7 @@ class RelativeObject(location: Location) {
             loc.y = this.location.y
             loc.z = this.location.z
 
-            loc.add(entityInfo.vector.clone().rotateAroundX(rotation.x).rotateAroundX(rotation.y).rotateAroundX(rotation.z))
+            loc.add(entityInfo.vector.clone().rotateAroundX(rotation.x).rotateAroundY(rotation.y).rotateAroundZ(rotation.z))
 
             entity.teleport(loc)
         }
