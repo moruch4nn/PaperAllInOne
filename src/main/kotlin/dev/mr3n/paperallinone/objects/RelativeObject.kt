@@ -61,15 +61,12 @@ class RelativeObject(location: Location) {
             var vector = entityInfo.vector.clone()
 
             if(entityInfo.rotateX) {
-                loc.direction = loc.direction.setX(entity.location.direction.x)
                 vector = vector.rotateAroundX(this.rotation.x)
             }
             if(entityInfo.rotateY) {
-                loc.direction = loc.direction.setY(entity.location.direction.y)
                 vector = vector.rotateAroundY(this.rotation.y)
             }
             if(entityInfo.rotateZ) {
-                loc.direction = loc.direction.setZ(entity.location.direction.z)
                 vector = vector.rotateAroundZ(this.rotation.z)
             }
             loc.add(vector)
