@@ -58,7 +58,7 @@ class RelativeObject(location: Location) {
 
     fun update() {
         this.displayEntities.forEach { (entity, entityInfo) ->
-            val loc = this.location.clone().setDirection(Vector(0,0,0))
+            val loc = this.location.clone()
             if(entityInfo.rotateY) {
                 this.rotation.y = -Math.toRadians(loc.yaw.toDouble())
             }
@@ -71,11 +71,11 @@ class RelativeObject(location: Location) {
     }
 
     fun teleport(location: Location, applyRot: Boolean) {
-        this.location = location.clone()
         if(applyRot) {
-            this.rotation.y = -Math.toRadians(location.yaw.toDouble())
-            this.rotation.x = Math.toRadians(location.pitch.toDouble())
+            location.setDirection(this.location.direction)
         }
+        this.location = location.clone()
+
         this.update()
     }
 }
