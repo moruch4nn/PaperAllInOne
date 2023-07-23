@@ -73,22 +73,22 @@ class RelativeObject(location: Location) {
         this.children.forEach { (relativeObject, entityInfo) ->
             val loc = this.location.clone()
             var vector = entityInfo.vector.clone()
+
             if(entityInfo.rotateX) {
                 vector = vector.rotateAroundX(this.rotation.x)
+            } else {
+                loc.pitch = relativeObject.location.pitch
             }
             if(entityInfo.rotateY) {
                 vector = vector.rotateAroundY(this.rotation.y)
+            } else {
+                loc.yaw = relativeObject.location.yaw
             }
             if(entityInfo.rotateZ) {
                 vector = vector.rotateAroundZ(this.rotation.z)
             }
             loc.add(vector)
-            relativeObject.teleport(loc,false)
-//            relativeObject.rotate(
-//                x = if(entityInfo.rotateX) this.rotation.x else null,
-//                y = if(entityInfo.rotateY) this.rotation.y else null,
-//                z = if(entityInfo.rotateZ) this.rotation.z else null,
-//                )
+            relativeObject.teleport(loc,true)
         }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
