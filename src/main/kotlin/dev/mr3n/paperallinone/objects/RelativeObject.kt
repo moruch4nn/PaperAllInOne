@@ -10,10 +10,18 @@ class RelativeObject(location: Location) {
     var location = location.clone()
 
     private val displayEntities = mutableMapOf<Entity, DisplayEntityInfo>()
+    private val children = mutableListOf<Pair<RelativeObject,DisplayEntityInfo>>()
     private val rotation = Vector()
 
     fun add(entity: Entity, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
         this.displayEntities[entity] = DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ)
+        return this
+    }
+
+    fun add(entity: RelativeObject, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
+
+    fun add(relativeObject: RelativeObject, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
+        this.children.add(relativeObject to DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ))
         return this
     }
 
@@ -26,10 +34,16 @@ class RelativeObject(location: Location) {
         return entity
     }
 
-    fun rotate(x: Double,y: Double,z: Double) {
-        this.rotation.x = x
-        this.rotation.y = y
-        this.rotation.z = z
+    fun rotate(x: Double? = null,y: Double? = null,z: Double? = null) {
+        if(x != null) {
+            this.rotation.x = x
+        }
+        if(y != null) {
+            this.rotation.y = y
+        }
+        if(z != null) {
+            this.rotation.z = z
+        }
         this.update()
     }
 
@@ -56,6 +70,26 @@ class RelativeObject(location: Location) {
         get() = this.rotation.z
 
     fun update() {
+        this.children.forEach { (relativeObject, entityInfo) ->
+            val loc = this.location.clone()
+            var vector = entityInfo.vector.clone()
+            if(entityInfo.rotateX) {
+                vector = vector.rotateAroundX(this.rotation.x)
+            }
+            if(entityInfo.rotateY) {
+                vector = vector.rotateAroundY(this.rotation.y)
+            }
+            if(entityInfo.rotateZ) {
+                vector = vector.rotateAroundZ(this.rotation.z)
+            }
+            loc.add(vector)
+            relativeObject.teleport(loc,false)
+            relativeObject.rotate(
+                x = if(entityInfo.rotateX) this.rotation.x else null,
+                y = if(entityInfo.rotateY) this.rotation.y else null,
+                z = if(entityInfo.rotateZ) this.rotation.z else null,
+                )
+        }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
             var vector = entityInfo.vector.clone()
@@ -78,10 +112,28 @@ class RelativeObject(location: Location) {
         }
     }
 
+    fun direction(yaw: Float, pitch: Float) {
+        this.rotation.y = -Math.toRadians(location.yaw.toDouble())
+        this.rotation.x = Math.toRadians(location.pitch.toDouble())
+        this.update()
+    }
+
+    fun yaw(yaw: Float) {
+        this.rotation.y = -Math.toRadians(yaw.toDouble())
+        this.update()
+    }
+
+    fun pitch(pitch: Float) {
+        this.rotation.x = Math.toRadians(pitch.toDouble())
+        this.update()
+    }
+
     fun teleport(location: Location, applyRot: Boolean) {
         if(applyRot) {
             this.rotation.y = -Math.toRadians(location.yaw.toDouble())
             this.rotation.x = Math.toRadians(location.pitch.toDouble())
+        } else {
+            location.direction = this.location.direction
         }
         this.location = location.clone()
 
