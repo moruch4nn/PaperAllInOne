@@ -84,11 +84,11 @@ class RelativeObject(location: Location) {
             }
             loc.add(vector)
             relativeObject.teleport(loc,false)
-            relativeObject.rotate(
-                x = if(entityInfo.rotateX) this.rotation.x else null,
-                y = if(entityInfo.rotateY) this.rotation.y else null,
-                z = if(entityInfo.rotateZ) this.rotation.z else null,
-                )
+//            relativeObject.rotate(
+//                x = if(entityInfo.rotateX) this.rotation.x else null,
+//                y = if(entityInfo.rotateY) this.rotation.y else null,
+//                z = if(entityInfo.rotateZ) this.rotation.z else null,
+//                )
         }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
