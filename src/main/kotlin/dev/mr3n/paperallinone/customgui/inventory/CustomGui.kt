@@ -6,6 +6,7 @@ import dev.mr3n.paperallinone.customgui.CustomGuiEventListener
 import dev.mr3n.paperallinone.customgui.CustomGuiEvents
 import dev.mr3n.paperallinone.customgui.ICustomGui
 import dev.mr3n.paperallinone.customgui.UniqueInventoryHolder
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -17,9 +18,9 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-open class CustomGui(protected val plugin: JavaPlugin, final override val title: String, final override val size: Int, private val runnable: CustomGui.() -> Unit = {}) : ICustomGui, Listener {
+open class CustomGui(protected val plugin: JavaPlugin, final override var title: Component, final override val size: Int, private val runnable: CustomGui.() -> Unit = {}) : ICustomGui, Listener {
     final override var isSync: Boolean = false
-    protected set
+        protected set
 
     final override val uniqueTagKey: NamespacedKey = NamespacedKey(plugin, "CustomGui.${UUID.randomUUID()}")
 
@@ -140,7 +141,7 @@ open class CustomGui(protected val plugin: JavaPlugin, final override val title:
     }
 
     companion object {
-        fun JavaPlugin.createCustomGui(size: Int, title: String, runnable: CustomGui.() -> Unit = {}): CustomGui {
+        fun JavaPlugin.createCustomGui(size: Int, title: Component, runnable: CustomGui.() -> Unit = {}): CustomGui {
             return CustomGui(this, title, size, runnable)
         }
     }

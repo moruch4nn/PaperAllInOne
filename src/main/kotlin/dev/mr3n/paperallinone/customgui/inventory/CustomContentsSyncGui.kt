@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * @param endY addItemをし(ry
  * @param runnable 任意:処理を記述してください
  */
-open class CustomContentsSyncGui(plugin: JavaPlugin, size: Int, title: String, private val startX: Int, private val startY: Int, private val endX: Int, private val endY: Int, private val runnable: CustomContentsSyncGui.() -> Unit = {}): CustomSyncGui(plugin, title, size) {
+open class CustomContentsSyncGui(plugin: JavaPlugin, size: Int, title: Component, private val startX: Int, private val startY: Int, private val endX: Int, private val endY: Int, private val runnable: CustomContentsSyncGui.() -> Unit = {}): CustomSyncGui(plugin, title, size) {
     private val contents = mutableMapOf<ActionItem,ActionItem.()->Unit>()
     private val bufferInventory = super.inventory()
     private val indexes = mutableListOf<Int>()
@@ -130,7 +130,7 @@ open class CustomContentsSyncGui(plugin: JavaPlugin, size: Int, title: String, p
         val SORT_BY_DISPLAY_NAME: (ActionItem)->Comparable<String>? = { it.itemStack.itemMeta?.displayName?:it.itemStack.type.toString() }
         val SORT_BY_AMOUNT: (ActionItem)->Comparable<Int>? = { it.itemStack.amount }
 
-        fun JavaPlugin.createCustomContentsGui(size: Int, title: String, startX: Int, startY: Int, endX: Int, endY: Int, runnable: CustomContentsSyncGui.() -> Unit = {}): CustomContentsSyncGui {
+        fun JavaPlugin.createCustomContentsGui(size: Int, title: Component, startX: Int, startY: Int, endX: Int, endY: Int, runnable: CustomContentsSyncGui.() -> Unit = {}): CustomContentsSyncGui {
             return CustomContentsSyncGui(this, size, title, startX, startY, endX, endY, runnable)
         }
     }

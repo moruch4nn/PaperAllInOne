@@ -1,6 +1,7 @@
 package dev.mr3n.paperallinone.customgui
 
 import dev.moru3.minepie.customgui.ActionItem
+import net.kyori.adventure.text.Component
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -9,7 +10,7 @@ import org.bukkit.inventory.ItemStack
 
 interface ICustomGui {
 
-    val title: String
+    var title: Component
     val size: Int
 
     val uniqueInventoryHolder: UniqueInventoryHolder

@@ -4,6 +4,7 @@ import dev.mr3n.paperallinone.customgui.CustomGuiEventListener
 import dev.mr3n.paperallinone.customgui.CustomGuiEvents
 import dev.mr3n.paperallinone.customgui.UniqueInventoryHolder
 import dev.mr3n.paperallinone.customgui.CustomGuiClickEvent.Companion.asCustomGuiClickEvent
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.plugin.java.JavaPlugin
@@ -13,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * チェストやかまどなどのリアルタイムで反映が必要なGUIに使用できます。
  * 注: 一度作るとリスナーを削除できません。
  */
-open class CustomSyncGui(plugin: JavaPlugin, title: String, size: Int, runnable: CustomSyncGui.() -> Unit = {}): CustomGui(plugin, title, size) {
+open class CustomSyncGui(plugin: JavaPlugin, title: Component, size: Int, runnable: CustomSyncGui.() -> Unit = {}): CustomGui(plugin, title, size) {
 
     private val listener: CustomGuiEvents
 
@@ -60,7 +61,7 @@ open class CustomSyncGui(plugin: JavaPlugin, title: String, size: Int, runnable:
             }
         }
 
-        fun JavaPlugin.createCustomSyncGui(size: Int, title: String, runnable: CustomGui.() -> Unit = {}): CustomGui {
+        fun JavaPlugin.createCustomSyncGui(size: Int, title: Component, runnable: CustomGui.() -> Unit = {}): CustomGui {
             return CustomSyncGui(this, title, size, runnable)
         }
     }

@@ -13,25 +13,28 @@ open class RelativeObject(location: Location) {
     private val children = mutableListOf<Pair<RelativeObject,DisplayEntityInfo>>()
     private val rotation = Vector()
 
-    fun add(entity: Entity, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
-        this.displayEntities[entity] = DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ)
-        return this
+    fun add(entity: Entity, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): DisplayEntityInfo {
+        val info = DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ)
+        this.displayEntities[entity] = info
+        return info
     }
 
-    fun add(entity: RelativeObject, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
+    fun add(entity: RelativeObject, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): DisplayEntityInfo = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
 
-    fun add(relativeObject: RelativeObject, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject {
-        this.children.add(relativeObject to DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ))
-        return this
+    fun add(relativeObject: RelativeObject, vector: Vector, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): DisplayEntityInfo {
+
+        val info = DisplayEntityInfo(vector.clone(), rotateX, rotateY, rotateZ)
+        this.children.add(relativeObject to info)
+        return info
     }
 
-    fun add(entity: Entity, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): RelativeObject = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
+    fun add(entity: Entity, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): DisplayEntityInfo = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
 
-    fun <T: Entity> add(type: Class<T>, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): T {
+    fun <T: Entity> add(type: Class<T>, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): Pair<Entity, DisplayEntityInfo> {
         val world = this.location.world!!
         val entity = world.spawn(this.location,type)
-        this.add(entity, x, y, z, rotateX, rotateY, rotateZ)
-        return entity
+        val info = this.add(entity, x, y, z, rotateX, rotateY, rotateZ)
+        return entity to info
     }
 
     fun rotate(x: Double? = null,y: Double? = null,z: Double? = null) {
