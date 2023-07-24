@@ -30,7 +30,7 @@ open class RelativeObject(location: Location) {
 
     fun add(entity: Entity, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): DisplayEntityInfo = this.add(entity, Vector(x,y,z), rotateX, rotateY, rotateZ)
 
-    fun <T: Entity> add(type: Class<T>, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): Pair<Entity, DisplayEntityInfo> {
+    fun <T: Entity> add(type: Class<T>, x: Double, y: Double, z: Double, rotateX: Boolean = true, rotateY: Boolean = true, rotateZ: Boolean = true): Pair<T, DisplayEntityInfo> {
         val world = this.location.world!!
         val entity = world.spawn(this.location,type)
         val info = this.add(entity, x, y, z, rotateX, rotateY, rotateZ)
