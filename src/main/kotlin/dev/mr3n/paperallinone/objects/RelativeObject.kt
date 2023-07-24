@@ -88,7 +88,7 @@ class RelativeObject(location: Location) {
                 vector = vector.rotateAroundZ(this.rotation.z)
             }
             loc.add(vector)
-            relativeObject.teleport(loc,true)
+            relativeObject.teleport(loc,false)
         }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
