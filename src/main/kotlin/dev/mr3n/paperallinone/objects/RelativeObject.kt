@@ -88,7 +88,7 @@ class RelativeObject(location: Location) {
                 vector = vector.rotateAroundZ(this.rotation.z)
             }
             loc.add(vector)
-            relativeObject.teleport(loc,false)
+            relativeObject.teleport(loc,true)
         }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
@@ -120,11 +120,13 @@ class RelativeObject(location: Location) {
 
     fun yaw(yaw: Float) {
         this.rotation.y = -Math.toRadians(yaw.toDouble())
+        this.location.yaw = yaw
         this.update()
     }
 
     fun pitch(pitch: Float) {
         this.rotation.x = Math.toRadians(pitch.toDouble())
+        this.location.pitch = pitch
         this.update()
     }
 
