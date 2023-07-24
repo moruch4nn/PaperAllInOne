@@ -5,7 +5,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.util.Vector
 
 @Suppress("unused")
-class RelativeObject(location: Location) {
+open class RelativeObject(location: Location) {
 
     var location = location.clone()
 
