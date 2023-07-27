@@ -75,7 +75,7 @@ open class RelativeObject(location: Location) {
     fun update() {
         this.children.forEach { (relativeObject, entityInfo) ->
             val loc = this.location.clone()
-            var vector = entityInfo.vector.clone()
+            var vector = entityInfo.relative.clone()
 
             if(entityInfo.rotateX) {
                 vector = vector.rotateAroundX(this.rotation.x)
@@ -95,7 +95,7 @@ open class RelativeObject(location: Location) {
         }
         this.displayEntities.forEach { (entity, entityInfo) ->
             val loc = this.location.clone()
-            var vector = entityInfo.vector.clone()
+            var vector = entityInfo.relative.clone()
 
             if(entityInfo.rotateX) {
                 vector = vector.rotateAroundX(this.rotation.x)
