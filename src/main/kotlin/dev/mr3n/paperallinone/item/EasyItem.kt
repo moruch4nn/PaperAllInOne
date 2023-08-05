@@ -1,7 +1,6 @@
 package dev.mr3n.paperallinone.item
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.Style
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -13,10 +12,10 @@ import org.bukkit.persistence.PersistentDataType
 open class EasyItem(
     material: Material,
     displayName: Component? = null,
-    lore: List<String> = listOf(),
+    lore: List<Component> = listOf(),
     itemFlags: Set<ItemFlag> = setOf(),
     enchantments: Map<Enchantment, Int> = mapOf(),
-    lorePrefix: TextColor? = TextColor.color(0xAAAAAA),
+    loreColor: TextColor? = null,
     customModelData: Int = 0,
     vararg dataContainer: Pair<NamespacedKey, Any>
 ) : ItemStack(material) {
@@ -24,7 +23,7 @@ open class EasyItem(
         this.itemMeta = this.itemMeta?.also { itemMeta ->
             displayName?.also(itemMeta::displayName)
             itemMeta.setCustomModelData(customModelData)
-            itemMeta.lore(lore.map { Component.text(it, Style.style(lorePrefix)) })
+            itemMeta.lore(lore.map { if(loreColor == null) it else it.color(loreColor) })
             itemFlags.forEach(itemMeta::addItemFlags)
             enchantments.forEach { itemMeta.addEnchant(it.key, it.value, true) }
             dataContainer.forEach { (key, any) ->
