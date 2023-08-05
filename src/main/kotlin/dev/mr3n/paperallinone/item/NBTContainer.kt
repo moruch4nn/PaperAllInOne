@@ -177,7 +177,7 @@ class NBTContainer(private val itemMeta: ItemMeta) {
 
 fun ItemMeta.nbt(): NBTContainer = NBTContainer(this)
 
-fun <T> ItemStack.nbt(block: (NBTContainer)->T): T {
+fun <T> ItemStack.nbt(block: NBTContainer.()->T): T {
     val itemMeta = this.itemMeta
     val value = block.invoke(itemMeta.nbt())
     this.itemMeta = itemMeta
