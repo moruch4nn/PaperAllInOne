@@ -15,7 +15,7 @@ internal object KeyManager {
     private val keys = mutableMapOf<String, NamespacedKey>()
 
     fun key(enum: Enum<*>): NamespacedKey {
-        val name = enum::class.java.name.replace(".","_").lowercase()
+        val name = enum::class.java.name.replace(".","_").replace("$","__").lowercase()
         return keys.getOrPut(name) { NamespacedKey("paper-all-in-one", name) }
     }
 }
