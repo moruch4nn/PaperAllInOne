@@ -173,6 +173,13 @@ class NBTContainer(private val itemMeta: ItemMeta) {
     }
 
     fun boolean(key: Enum<*>) = this.boolean(KeyManager.key(key))
+
+    fun remove(key: NamespacedKey): NBTContainer {
+        itemMeta.persistentDataContainer.remove(key)
+        return this
+    }
+
+    fun remove(key: Enum<*>) = this.remove(KeyManager.key(key))
 }
 
 fun ItemMeta.nbt(): NBTContainer = NBTContainer(this)
