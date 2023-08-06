@@ -130,7 +130,7 @@ open class CustomContentsSyncGui(plugin: JavaPlugin, size: Int, title: Component
         val SORT_BY_DISPLAY_NAME: (ActionItem)->Comparable<String>? = { it.itemStack.itemMeta?.displayName?:it.itemStack.type.toString() }
         val SORT_BY_AMOUNT: (ActionItem)->Comparable<Int>? = { it.itemStack.amount }
 
-        fun JavaPlugin.createCustomContentsGui(size: Int, title: Component, startX: Int, startY: Int, endX: Int, endY: Int, runnable: CustomContentsSyncGui.() -> Unit = {}): CustomContentsSyncGui {
+        fun JavaPlugin.createCustomContentsSyncGui(size: Int, title: Component, startX: Int, startY: Int, endX: Int, endY: Int, runnable: CustomContentsSyncGui.() -> Unit = {}): CustomContentsSyncGui {
             return CustomContentsSyncGui(this, size, title, startX, startY, endX, endY, runnable)
         }
     }
