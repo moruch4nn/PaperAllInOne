@@ -2,7 +2,14 @@
 
 package dev.mr3n.paperallinone.item
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.NamespacedKey
+import org.bukkit.World
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -151,6 +158,31 @@ class NBTContainer(private val holder: PersistentDataHolder) {
 
     fun string(enum: Enum<*>) = this.string(KeyManager.key(enum))
 
+    fun world(key: NamespacedKey, world: World): NBTContainer {
+        return this.string(key, world.name)
+    }
+
+    fun world(enum: Enum<*>, world: World) = this.world(KeyManager.key(enum), world)
+
+    fun world(key: NamespacedKey): World? {
+        return Bukkit.getWorld(this.string(key)?:return null)
+    }
+
+    fun world(enum: Enum<*>) = this.world(KeyManager.key(enum))
+
+    fun location(key: NamespacedKey, value: Location): NBTContainer {
+        this.string(key, Json.encodeToString(value))
+        return this
+    }
+
+    fun location(key: Enum<*>, value: Location) = this.location(KeyManager.key(key), value)
+
+    fun location(key: NamespacedKey): Location? {
+        return Json.decodeFromString(this.string(key)?:return null)
+    }
+
+    fun location(key: Enum<*>) = this.location(KeyManager.key(key))
+
     fun uniqueId(key: NamespacedKey, value: UUID): NBTContainer {
         return this.string(key, "$value")
     }
@@ -162,6 +194,19 @@ class NBTContainer(private val holder: PersistentDataHolder) {
     }
 
     fun uniqueId(key: Enum<*>) = this.uniqueId(KeyManager.key(key))
+
+    fun component(key: NamespacedKey, value: Component): NBTContainer {
+        this.string(key, GsonComponentSerializer.gson().serialize(value))
+        return this
+    }
+
+    fun component(key: Enum<*>, value: Component) = this.component(KeyManager.key(key), value)
+
+    fun component(key: NamespacedKey): Component? {
+        return GsonComponentSerializer.gson().deserialize(this.string(key)?:return null)
+    }
+
+    fun component(key: Enum<*>): Component? = this.component(KeyManager.key(key))
 
     fun boolean(key: NamespacedKey, value: Boolean): NBTContainer {
         holder.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, value)
