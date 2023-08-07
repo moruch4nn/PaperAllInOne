@@ -10,6 +10,7 @@ version = "1.1"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://nexus.frengor.com/repository/public/")
 }
 
 dependencies {
@@ -17,6 +18,7 @@ dependencies {
     implementation("org.objenesis:objenesis:3.3")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
+    compileOnly("dev.jorel:commandapi-bukkit-shade:9.0.3")
 }
 
 kotlin {
