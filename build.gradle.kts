@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("com.mojang:brigadier:1.0.18")
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
     implementation("org.objenesis:objenesis:3.3")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
