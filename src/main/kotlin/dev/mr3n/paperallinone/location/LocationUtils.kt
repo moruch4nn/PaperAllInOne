@@ -33,17 +33,17 @@ fun Location.fill(to: Location, roughness: Double, task: (Location)->Unit) {
     var z = minOf(from.z,to.z)
     val maxZ = maxOf(from.z,to.z)
     while(true) {
-        x+=roughness
-        if(x > maxX) { break }
         while(true) {
-            y+=roughness
-            if(y > maxY) { break }
             while(true) {
+                task.invoke(Location(world, x, y, z))
                 z+=roughness
                 if(z > maxZ) { break }
-                task.invoke(Location(world, x, y, z))
             }
+            y+=roughness
+            if(y > maxY) { break }
         }
+        x+=roughness
+        if(x > maxX) { break }
     }
 }
 
