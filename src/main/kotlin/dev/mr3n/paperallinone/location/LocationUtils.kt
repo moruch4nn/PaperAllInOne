@@ -76,6 +76,6 @@ fun Location.box(to: Location, roughness: Double, task: (Location) -> Unit) {
     Location(world, minX, minY, minZ).fill(Location(world, maxX, maxY, minZ), roughness, task)
     Location(world, maxX, minY, minZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
 
-    this.fill(to.apply { y = this@box.y }, roughness, task)
-    this.apply { y = to.y }.fill(to, roughness, task)
+    this.fill(to.clone().apply { y = this@box.y }, roughness, task)
+    this.clone().apply { y = to.y }.fill(to, roughness, task)
 }
