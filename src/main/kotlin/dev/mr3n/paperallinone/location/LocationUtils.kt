@@ -69,12 +69,13 @@ fun Location.box(to: Location, roughness: Double, task: (Location) -> Unit) {
     val minY = minOf(this.y,to.y)
     val maxY = maxOf(this.y,to.y)
     val minZ = minOf(this.z,to.z)
-    val maxZ = minOf(this.z,to.z)
+    val maxZ = maxOf(this.z,to.z)
     val world = this.world
     Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, maxZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, minZ).fill(Location(world, maxX, maxY, minZ), roughness, task)
     Location(world, maxX, minY, minZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
-    Location(world, minX, minY, minZ).fill(Location(world, maxX, minY, maxZ), roughness, task)
-    Location(world, minX, maxY, minZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
+
+    this.fill(to.apply { y = this@box.y }, roughness, task)
+    this.apply { y = to.y }.fill(to, roughness, task)
 }
