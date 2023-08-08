@@ -39,11 +39,13 @@ fun Location.fill(to: Location, roughness: Double, task: (Location)->Unit) {
                 z+=roughness
                 if(z > maxZ) { break }
             }
-            y+=roughness
-            if(y > maxY) { break }
+            z = minOf(from.z,to.z)
+            x+=roughness
+            if(x > maxX) { break }
         }
-        x+=roughness
-        if(x > maxX) { break }
+        x = minOf(from.x,to.x)
+        y+=roughness
+        if(y > maxY) { break }
     }
 }
 
