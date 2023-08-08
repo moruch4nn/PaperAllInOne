@@ -73,7 +73,6 @@ fun Location.box(to: Location, roughness: Double, task: (Location) -> Unit) {
     val world = this.world
     Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, maxZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
-    Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, minZ).fill(Location(world, maxX, maxY, minZ), roughness, task)
     Location(world, maxX, minY, minZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, minZ).fill(Location(world, maxX, minY, maxZ), roughness, task)
