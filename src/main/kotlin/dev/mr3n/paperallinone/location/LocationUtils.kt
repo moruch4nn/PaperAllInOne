@@ -22,3 +22,41 @@ fun Location.lineTo(to: Location, roughness: Double, task: (Location)->Unit) {
         task.invoke(loc)
     }
 }
+
+fun Location.fill(to: Location, roughness: Double, task: (Location)->Unit) {
+    val from = this
+    val world = from.world
+    var x = minOf(from.x,to.x)
+    val maxX = maxOf(from.x,to.x)
+    var y = minOf(from.y,to.y)
+    val maxY = maxOf(from.y,to.y)
+    var z = minOf(from.z,to.z)
+    val maxZ = maxOf(from.z,to.z)
+    while(true) {
+        x+=roughness
+        if(x > maxX) { break }
+        while(true) {
+            y+=roughness
+            if(y > maxY) { break }
+            while(true) {
+                z+=roughness
+                if(z > maxZ) { break }
+                task.invoke(Location(world, x, y, z))
+            }
+        }
+    }
+}
+
+fun Location.box(to: Location, roughness: Double, task: (Location) -> Unit) {
+    val minX = minOf(this.x,to.x)
+    val maxX = maxOf(this.x,to.x)
+    val minY = minOf(this.y,to.y)
+    val maxY = maxOf(this.y,to.y)
+    val minZ = minOf(this.z,to.z)
+    val maxZ = minOf(this.z,to.z)
+    val world = this.world
+    Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
+    Location(world, minX, minY, maxZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
+    Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
+    Location(world, minX, minY, minZ).fill(Location(world, maxX, maxY, minZ), roughness, task)
+}
