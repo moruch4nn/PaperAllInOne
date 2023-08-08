@@ -55,7 +55,7 @@ fun Location.wall(to: Location, roughness: Double, task: (Location) -> Unit) {
     val minY = minOf(this.y,to.y)
     val maxY = maxOf(this.y,to.y)
     val minZ = minOf(this.z,to.z)
-    val maxZ = minOf(this.z,to.z)
+    val maxZ = maxOf(this.z,to.z)
     val world = this.world
     Location(world, minX, minY, minZ).fill(Location(world, minX, maxY, maxZ), roughness, task)
     Location(world, minX, minY, maxZ).fill(Location(world, maxX, maxY, maxZ), roughness, task)
