@@ -36,6 +36,8 @@ open class CustomSyncGui(plugin: JavaPlugin, title: Component, size: Int, runnab
             override val uniqueInventoryHolder: UniqueInventoryHolder = this@CustomSyncGui.uniqueInventoryHolder
             override val javaPlugin = plugin
             override fun onInventoryClick(event: InventoryClickEvent) {
+                this@CustomSyncGui.clickTasks.forEach { it.invoke(event) }
+                if(event.isCancelled) { return }
                 this@CustomSyncGui.actionItems.filter { it.isSimilarTag(event.currentItem) }.forEach { actionItem ->
                         if (!actionItem.allowGet) {
                             event.isCancelled = true

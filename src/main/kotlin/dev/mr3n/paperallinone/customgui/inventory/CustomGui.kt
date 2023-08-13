@@ -32,8 +32,13 @@ open class CustomGui(protected val plugin: JavaPlugin, final override var title:
 
     final override val uniqueInventoryHolder: UniqueInventoryHolder = UniqueInventoryHolder()
 
+    protected val clickTasks = mutableListOf<(InventoryClickEvent)->Unit>()
+
     override fun closeListener(process: (InventoryCloseEvent) -> Unit) { closeProcesses.add(process) }
 
+    override fun onClick(task: (InventoryClickEvent) -> Unit) {
+        this.clickTasks.add(task)
+    }
 
 
     override fun clone(): CustomGui {
@@ -112,6 +117,8 @@ open class CustomGui(protected val plugin: JavaPlugin, final override var title:
             override val javaPlugin = plugin
             override val uniqueInventoryHolder: UniqueInventoryHolder = gui.uniqueInventoryHolder
             override fun onInventoryClick(event: InventoryClickEvent) {
+                this@CustomGui.clickTasks.forEach { it.invoke(event) }
+                if(event.isCancelled) { return }
                 gui.actionItems.filter { it.isSimilarTag(event.currentItem) }.forEach { actionItem ->
                         if(!actionItem.allowGet) {
                             event.isCancelled = true

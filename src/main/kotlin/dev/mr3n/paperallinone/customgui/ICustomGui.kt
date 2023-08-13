@@ -4,6 +4,7 @@ import dev.moru3.minepie.customgui.ActionItem
 import net.kyori.adventure.text.Component
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -69,6 +70,8 @@ interface ICustomGui {
      * CustomInventoryをClone(non-deep)します。
      */
     fun clone(): ICustomGui
+
+    fun onClick(task: (InventoryClickEvent)->Unit)
 
     /**
      * GUIの内容を別のCustomGuiに置き換えます。
