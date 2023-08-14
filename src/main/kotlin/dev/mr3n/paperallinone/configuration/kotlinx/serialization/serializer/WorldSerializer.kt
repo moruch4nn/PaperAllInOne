@@ -12,14 +12,14 @@ import org.bukkit.Bukkit
 import org.bukkit.World
 
 @OptIn(ExperimentalSerializationApi::class)
-object WorldSerializer: KSerializer<World?> {
+object WorldSerializer: KSerializer<World> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("World", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: World?) {
-        encoder.encodeNullableSerializableValue(String.serializer(), value?.name)
+    override fun serialize(encoder: Encoder, value: World) {
+        encoder.encodeNullableSerializableValue(String.serializer(), value.name)
     }
 
-    override fun deserialize(decoder: Decoder): World? {
-        return Bukkit.getWorld(decoder.decodeString())
+    override fun deserialize(decoder: Decoder): World {
+        return Bukkit.getWorld(decoder.decodeString())!!
     }
 }
