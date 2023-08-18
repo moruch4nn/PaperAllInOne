@@ -132,6 +132,7 @@ open class CustomGui(protected val plugin: JavaPlugin, final override var title:
 
             override fun onInventoryClose(event: InventoryCloseEvent) {
                 if(event.player==player) { onClose(event) }
+                super.onInventoryClose(event)
             }
         }
 

@@ -5,8 +5,11 @@ import dev.mr3n.paperallinone.customgui.CustomGuiEvents
 import dev.mr3n.paperallinone.customgui.UniqueInventoryHolder
 import dev.mr3n.paperallinone.customgui.CustomGuiClickEvent.Companion.asCustomGuiClickEvent
 import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -47,6 +50,14 @@ open class CustomSyncGui(plugin: JavaPlugin, title: Component, size: Int, runnab
                             it.value.invoke(event.asCustomGuiClickEvent(this@CustomSyncGui))
                         }
                     }
+            }
+
+            override fun onInventoryClose(event: InventoryCloseEvent) {
+                closeProcesses.forEach { it.invoke(event) }
+            }
+
+            override fun onPlayerQuit(event: PlayerQuitEvent) {
+
             }
         }
         CustomGuiEventListener.register(listener)
